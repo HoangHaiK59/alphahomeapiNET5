@@ -15,13 +15,11 @@ namespace Alphahome.Models
         public string password { get; set; }
     }
 
-    public class UserModel
+    public class UserModelGet
     {
-        public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string UserId { get; set; }
-        [JsonIgnore]
-        public List<RefreshToken> RefreshTokens { get; set; }
+        public string email { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string userId { get; set; }
     }
 }

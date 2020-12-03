@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Alphahome.Services.Interfaces;
 using Alphahome.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,10 +20,12 @@ namespace User.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private IConfiguration _config;
         private readonly IAlphahomeService _alphahomeService;
-        public UserController(IAlphahomeService alphahomeService)
+        public UserController(IAlphahomeService alphahomeService, IConfiguration config)
         {
             _alphahomeService = alphahomeService;
+            _config = config;
         }
 
         /// <summary>
@@ -27,17 +34,39 @@ namespace User.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost("Authenticate")]
-        public IActionResult Authenticate([FromBody] AlphahomeUser user)
+        public IActionResult Authenticate([FromBody] AlphahomeUser userInfo)
         {
-            var result = _alphahomeService.Authenticate(user);
-            if (result.valid)
+            IActionResult response = Unauthorized();
+            var user = _alphahomeService.Authenticate(userInfo);
+            if (user != null)
             {
-                return Ok(result);
+                var token = GenerateJSONWebToken(userInfo);
+                return Ok(new { token = token, userId = user.userId, firstName = user.firstName, lastName = user.lastName, email = user.email }) ;
             } else
             {
-                return Ok(result);
+                return response;
             }
 
+        }
+
+        private string GenerateJSONWebToken(AlphahomeUser user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Email, user.email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(null,
+              null,
+              claims,
+              expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         //[HttpPost("revoke-token")]

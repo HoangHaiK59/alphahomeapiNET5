@@ -567,7 +567,7 @@ namespace Alphahome.Repositories
             }
         }
 
-        public Response Authenticate(AlphahomeUser user)
+        public UserModelGet Authenticate(AlphahomeUser user)
         {
             var procedure = "sp_user_login";
             using (var conn = new MySqlConnection(_connectionString))
@@ -578,7 +578,7 @@ namespace Alphahome.Repositories
                     var param = new DynamicParameters();
                     param.Add("email", user.email);
                     param.Add("password", user.password);
-                    var data = conn.QueryFirstOrDefault<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                    var data = conn.QueryFirstOrDefault<UserModelGet>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
                     return data;
 
                 }

@@ -35,7 +35,7 @@ namespace Upload.Controllers
                 return Ok(result);
             }
 
-            return Ok(result);
+            return BadRequest(result);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Upload.Controllers
                 return Ok(result);
             }
 
-            return Ok(result);
+            return BadRequest(result);
         }
 
     }

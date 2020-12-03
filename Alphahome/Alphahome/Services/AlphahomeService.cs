@@ -116,7 +116,7 @@ namespace Alphahome.Services
         {
             return _alphahomeRepo.DeletePost(postDelete);
         }
-        public Response Authenticate(AlphahomeUser user)
+        public UserModelGet Authenticate(AlphahomeUser user)
         {
             return _alphahomeRepo.Authenticate(user);
         }

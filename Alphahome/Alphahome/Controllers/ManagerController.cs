@@ -116,7 +116,11 @@ namespace Manager.Controllers
         public IActionResult SetService([FromBody] ServicePost service)
         {
             var data = _alphahomeService.SetNewService(service);
-            return Ok(data);
+            if (data.valid)
+            {
+                return Ok(data);
+            }
+            return BadRequest(data);
         }
 
         /// <summary>
@@ -128,7 +132,11 @@ namespace Manager.Controllers
         public IActionResult SetProject([FromBody] ProjectPost project)
         {
             var data = _alphahomeService.SetNewProject(project);
-            return Ok(data);
+            if (data.valid)
+            {
+                return Ok(data);
+            }
+            return BadRequest(data);
         }
 
         /// <summary>
@@ -140,7 +148,11 @@ namespace Manager.Controllers
         public IActionResult SetPost([FromBody] PostParam post)
         {
             var data = _alphahomeService.SetNewPost(post);
-            return Ok(data);
+            if (data.valid)
+            {
+                return Ok(data);
+            }
+            return BadRequest(data);
         }
 
         /// <summary>
@@ -152,7 +164,11 @@ namespace Manager.Controllers
         public IActionResult DeleteService([FromBody] ServiceDelete serviceDelete)
         {
             var data = _alphahomeService.DeleteService(serviceDelete);
-            return Ok(data);
+            if (data.valid)
+            {
+                return Ok(data);
+            }
+            return BadRequest(data);
         }
 
         /// <summary>
@@ -164,7 +180,11 @@ namespace Manager.Controllers
         public IActionResult DeleteProject([FromBody] ProjectDelete projectDelete)
         {
             var data = _alphahomeService.DeleteProject(projectDelete);
-            return Ok(data);
+            if (data.valid)
+            {
+                return Ok(data);
+            }
+            return BadRequest(data);
         }
 
         /// <summary>
@@ -176,7 +196,11 @@ namespace Manager.Controllers
         public IActionResult DeletePost([FromBody] PostDelete postDelete)
         {
             var data = _alphahomeService.DeletePost(postDelete);
-            return Ok(data);
+            if (data.valid)
+            {
+                return Ok(data);
+            }
+            return BadRequest(data);
         }
     }
 }

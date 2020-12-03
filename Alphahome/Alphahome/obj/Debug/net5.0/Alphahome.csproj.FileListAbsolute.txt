@@ -69,3 +69,4 @@ E:\ASP\NET5\Alphahome\Alphahome\obj\Debug\net5.0\Alphahome.pdb
 E:\ASP\NET5\Alphahome\Alphahome\obj\Debug\net5.0\Alphahome.genruntimeconfig.cache
 E:\ASP\NET5\Alphahome\Alphahome\bin\Debug\net5.0\Alphahome.xml
 E:\ASP\NET5\Alphahome\Alphahome\obj\Debug\net5.0\Alphahome.xml
+E:\ASP\NET5\Alphahome\Alphahome\obj\Debug\net5.0\Alphahome.csprojAssemblyReference.cache
