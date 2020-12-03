@@ -1,0 +1,182 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Alphahome.Services.Interfaces;
+using Alphahome.Models;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace Manager.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ManagerController : ControllerBase
+    {
+        private readonly IAlphahomeService _alphahomeService;
+        public ManagerController(IAlphahomeService alphahomeService)
+        {
+            _alphahomeService = alphahomeService;
+        }
+        /// <summary>
+        /// Lấy ra các loại dịch vụ
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetServiceType")]
+        public IActionResult getServiceType()
+        {
+            var data = _alphahomeService.GetServiceType();
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Lấy ra các dự án
+        /// </summary>
+        /// <param name="offSet"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet("GetProjectPage")]
+        public IActionResult GetProjectPage(int offSet, int pageSize)
+        {
+            var data = _alphahomeService.GetProjectPage(offSet, pageSize);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Lấy ra chi tiết dự án
+        /// </summary>
+        /// <param name="pId"></param>
+        /// <returns></returns>
+        [HttpGet("GetDetailProject")]
+        public IActionResult GetDetailProject(long pId)
+        {
+            var data = _alphahomeService.GetDetailProject(pId);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Lấy hỗn hợp dịch vụ
+        /// </summary>
+        /// <param name="offSet"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet("GetServices")]
+        public IActionResult GetServices(int offSet, int pageSize)
+        {
+            var data = _alphahomeService.GetServices(offSet, pageSize);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Lấy ra tin tức
+        /// </summary>
+        /// <param name="offSet"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet("GetPosts")]
+        public IActionResult GetPosts(int offSet, int pageSize)
+        {
+            var data = _alphahomeService.GetPosts(offSet, pageSize);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Lấy ra dịch vụ + dự án + tin tức
+        /// </summary>
+        /// <param name="offSet"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet("GetManagerPage")]
+        public IActionResult GetManagerPage(int offSet, int pageSize)
+        {
+            var data = _alphahomeService.GetManagerPage(offSet, pageSize);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Lấy ra chi tiết dịch vụ
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <param name="serviceTypeId"></param>
+        /// <returns></returns>
+        [HttpGet("GetDetailById")]
+        public IActionResult GetDetailById(long sid, string serviceTypeId)
+        {
+            var data = _alphahomeService.GetDetailById(sid, serviceTypeId);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Thêm vào dịch vụ
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        [HttpPost("SetService")]
+        public IActionResult SetService([FromBody] ServicePost service)
+        {
+            var data = _alphahomeService.SetNewService(service);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Thêm dự án
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        [HttpPost("SetProject")]
+        public IActionResult SetProject([FromBody] ProjectPost project)
+        {
+            var data = _alphahomeService.SetNewProject(project);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Thêm tin tức
+        /// </summary>
+        /// <param name="post"></param>
+        /// <returns></returns>
+        [HttpPost("SetPost")]
+        public IActionResult SetPost([FromBody] PostParam post)
+        {
+            var data = _alphahomeService.SetNewPost(post);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Xóa dịch vụ
+        /// </summary>
+        /// <param name="serviceDelete"></param>
+        /// <returns></returns>
+        [HttpDelete("DeleteService")]
+        public IActionResult DeleteService([FromBody] ServiceDelete serviceDelete)
+        {
+            var data = _alphahomeService.DeleteService(serviceDelete);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Xóa dự án
+        /// </summary>
+        /// <param name="projectDelete"></param>
+        /// <returns></returns>
+        [HttpDelete("DeleteProject")]
+        public IActionResult DeleteProject([FromBody] ProjectDelete projectDelete)
+        {
+            var data = _alphahomeService.DeleteProject(projectDelete);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// Xóa tin tức
+        /// </summary>
+        /// <param name="postDelete"></param>
+        /// <returns></returns>
+        [HttpDelete("DeletePost")]
+        public IActionResult DeletePost([FromBody] PostDelete postDelete)
+        {
+            var data = _alphahomeService.DeletePost(postDelete);
+            return Ok(data);
+        }
+    }
+}

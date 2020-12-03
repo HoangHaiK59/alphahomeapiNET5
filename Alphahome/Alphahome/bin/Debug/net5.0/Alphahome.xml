@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Alphahome</name>
+    </assembly>
+    <members>
+        <member name="M:Alphahome.Controllers.AlphahomeController.getServiceType">
+            <summary>
+             Lấy ra loại dịch vụ
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.getServiceByOrder(System.Int32)">
+            <summary>
+            Lấy ra dịch vụ theo thứ tự
+            </summary>
+            <param name="order"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.GetProjectPage(System.Int32,System.Int32)">
+            <summary>
+            Lấy ra dự án
+            </summary>
+            <param name="offSet"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.GetDetailProject(System.Int64)">
+            <summary>
+            Lấy ra chi tiết dự án
+            </summary>
+            <param name="pId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.GetFurniturePage(System.String,System.Int32,System.Int32)">
+            <summary>
+            Lấy ra thiết kế nội thất, ngoại thất
+            </summary>
+            <param name="serviceTypeId"></param>
+            <param name="offset"></param>
+            <param name="pagesize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.GetWoodenPage(System.String,System.Int32,System.Int32)">
+            <summary>
+            Lấy ra sản phẩm đồ gỗ
+            </summary>
+            <param name="serviceTypeId"></param>
+            <param name="offset"></param>
+            <param name="pagesize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.GetContructionFurniturePage(System.String,System.Int32,System.Int32)">
+            <summary>
+            Lấy ra thi công nội thất, ngoại thất
+            </summary>
+            <param name="serviceTypeId"></param>
+            <param name="offset"></param>
+            <param name="pagesize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.GetContructionHousePage(System.String,System.Int32,System.Int32)">
+            <summary>
+            Lấy ra thiết kế nhà trọn gói
+            </summary>
+            <param name="serviceTypeId"></param>
+            <param name="offset"></param>
+            <param name="pagesize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.GetDetailById(System.Int64,System.String)">
+            <summary>
+            Lấy ra dịch vụ theo id
+            </summary>
+            <param name="sid"></param>
+            <param name="serviceTypeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.GetPosts(System.Int32,System.Int32)">
+            <summary>
+            Lấy ra tin tức
+            </summary>
+            <param name="offSet"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alphahome.Controllers.AlphahomeController.GetDetailPost(System.Int64)">
+            <summary>
+            Lấy ra chi tiết tin tức
+            </summary>
+            <param name="postId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ImageLib.Controllers.ImageLibController.GetImage(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            
+            </summary>
+            <param name="formFile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.getServiceType">
+            <summary>
+            Lấy ra các loại dịch vụ
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.GetProjectPage(System.Int32,System.Int32)">
+            <summary>
+            Lấy ra các dự án
+            </summary>
+            <param name="offSet"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.GetDetailProject(System.Int64)">
+            <summary>
+            Lấy ra chi tiết dự án
+            </summary>
+            <param name="pId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.GetServices(System.Int32,System.Int32)">
+            <summary>
+            Lấy hỗn hợp dịch vụ
+            </summary>
+            <param name="offSet"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.GetPosts(System.Int32,System.Int32)">
+            <summary>
+            Lấy ra tin tức
+            </summary>
+            <param name="offSet"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.GetManagerPage(System.Int32,System.Int32)">
+            <summary>
+            Lấy ra dịch vụ + dự án + tin tức
+            </summary>
+            <param name="offSet"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.GetDetailById(System.Int64,System.String)">
+            <summary>
+            Lấy ra chi tiết dịch vụ
+            </summary>
+            <param name="sid"></param>
+            <param name="serviceTypeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.SetService(Alphahome.Models.ServicePost)">
+            <summary>
+            Thêm vào dịch vụ
+            </summary>
+            <param name="service"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.SetProject(Alphahome.Models.ProjectPost)">
+            <summary>
+            Thêm dự án
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.SetPost(Alphahome.Models.PostParam)">
+            <summary>
+            Thêm tin tức
+            </summary>
+            <param name="post"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.DeleteService(Alphahome.Models.ServiceDelete)">
+            <summary>
+            Xóa dịch vụ
+            </summary>
+            <param name="serviceDelete"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.DeleteProject(Alphahome.Models.ProjectDelete)">
+            <summary>
+            Xóa dự án
+            </summary>
+            <param name="projectDelete"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Manager.Controllers.ManagerController.DeletePost(Alphahome.Models.PostDelete)">
+            <summary>
+            Xóa tin tức
+            </summary>
+            <param name="postDelete"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Upload.Controllers.UploadController.UploadFile(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Thêm ảnh
+            </summary>
+            <param name="formFile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Upload.Controllers.UploadController.UploadMultiImage(Microsoft.AspNetCore.Http.IFormFileCollection)">
+            <summary>
+            Thêm nhiều ảnh
+            </summary>
+            <param name="upload"></param>
+            <returns></returns>
+        </member>
+        <member name="M:User.Controllers.UserController.Authenticate(Alphahome.Models.AlphahomeUser)">
+            <summary>
+            Đăng nhập
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
