@@ -27,7 +27,7 @@ namespace Manager.Controllers
         public IActionResult getServiceType()
         {
             var data = _alphahomeService.GetServiceType();
-            return Ok(data);
+            return new JsonResult(data);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Manager.Controllers
         public IActionResult GetProjectPage(int offSet, int pageSize)
         {
             var data = _alphahomeService.GetProjectPage(offSet, pageSize);
-            return Ok(data);
+            return new JsonResult(data);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Manager.Controllers
         public IActionResult GetDetailProject(long pId)
         {
             var data = _alphahomeService.GetDetailProject(pId);
-            return Ok(data);
+            return new JsonResult(data);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Manager.Controllers
         public IActionResult GetServices(int offSet, int pageSize)
         {
             var data = _alphahomeService.GetServices(offSet, pageSize);
-            return Ok(data);
+            return new JsonResult(data);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Manager.Controllers
         public IActionResult GetPosts(int offSet, int pageSize)
         {
             var data = _alphahomeService.GetPosts(offSet, pageSize);
-            return Ok(data);
+            return new JsonResult(data);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Manager.Controllers
         public IActionResult GetManagerPage(int offSet, int pageSize)
         {
             var data = _alphahomeService.GetManagerPage(offSet, pageSize);
-            return Ok(data);
+            return new JsonResult(data);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Manager.Controllers
         public IActionResult GetDetailById(long sid, string serviceTypeId)
         {
             var data = _alphahomeService.GetDetailById(sid, serviceTypeId);
-            return Ok(data);
+            return new JsonResult(data);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Manager.Controllers
             var data = _alphahomeService.SetNewService(service);
             if (data.valid)
             {
-                return Ok(data);
+                return new JsonResult(data);
             }
             return BadRequest(data);
         }
@@ -134,7 +134,7 @@ namespace Manager.Controllers
             var data = _alphahomeService.SetNewProject(project);
             if (data.valid)
             {
-                return Ok(data);
+                return new JsonResult(data);
             }
             return BadRequest(data);
         }
@@ -150,7 +150,7 @@ namespace Manager.Controllers
             var data = _alphahomeService.SetNewPost(post);
             if (data.valid)
             {
-                return Ok(data);
+                return new JsonResult(data);
             }
             return BadRequest(data);
         }
@@ -166,7 +166,7 @@ namespace Manager.Controllers
             var data = _alphahomeService.DeleteService(serviceDelete);
             if (data.valid)
             {
-                return Ok(data);
+                return new JsonResult(data);
             }
             return BadRequest(data);
         }
@@ -182,7 +182,7 @@ namespace Manager.Controllers
             var data = _alphahomeService.DeleteProject(projectDelete);
             if (data.valid)
             {
-                return Ok(data);
+                return new JsonResult(data);
             }
             return BadRequest(data);
         }
@@ -198,7 +198,7 @@ namespace Manager.Controllers
             var data = _alphahomeService.DeletePost(postDelete);
             if (data.valid)
             {
-                return Ok(data);
+                return new JsonResult(data);
             }
             return BadRequest(data);
         }

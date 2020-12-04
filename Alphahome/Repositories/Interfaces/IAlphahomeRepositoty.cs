@@ -34,5 +34,6 @@ namespace Alphahome.Repositories.Interfaces
         Response DeletePost(PostDelete postDelete);
         List<ManageService> GetServices(int offSet, int pageSize);
         UserModelGet Authenticate(AlphahomeUser user);
+        Response UpdateUserToken(string userId, string refresh_token);
     }
 }

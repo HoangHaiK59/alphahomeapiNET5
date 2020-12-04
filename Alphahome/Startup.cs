@@ -2,9 +2,11 @@ using Alphahome.Repositories;
 using Alphahome.Repositories.Interfaces;
 using Alphahome.Services;
 using Alphahome.Services.Interfaces;
+using Alphahome.State;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -65,7 +67,9 @@ namespace Alphahome
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-            services.AddMvc();
+            services.AddMvc(opts => {
+                opts.Filters.Add(typeof(ModelStateFeatureFilter));
+            });
             services.AddDirectoryBrowser();
             services.AddSwaggerGenNewtonsoftSupport();
             services.AddScoped<IAlphahomeService, AlphahomeService>();
@@ -99,14 +103,18 @@ namespace Alphahome
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
-
-            app.UseAuthorization();
+            const string cacheMaxAge = "604800";
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
                          Path.Combine(env.WebRootPath, "images")),
-                RequestPath = "/images"
+                RequestPath = "/images",
+                OnPrepareResponse = ctx =>
+                {
+                    // using Microsoft.AspNetCore.Http;
+                    ctx.Context.Response.Headers.Append(
+                         "Cache-Control", $"public, max-age={cacheMaxAge}");
+                }
             });
 
             app.UseDirectoryBrowser(new DirectoryBrowserOptions
@@ -115,6 +123,12 @@ namespace Alphahome
                     Path.Combine(env.WebRootPath, "images")),
                 RequestPath = "/images"
             });
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseResponse();
 
             app.UseEndpoints(endpoints =>
             {

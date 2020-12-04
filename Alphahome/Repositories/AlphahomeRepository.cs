@@ -23,11 +23,13 @@ namespace Alphahome.Repositories
         private string _connectionString { get; set; }
 
         private IConfiguration _configuration;
-        public AlphahomeRepository ()
+        public AlphahomeRepository (IConfiguration configuration)
         {
-            IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(Environment.CurrentDirectory)
-                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            _configuration = builder.Build();
+            //IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(Environment.CurrentDirectory)
+            //     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            //_configuration = builder.Build();
+            //_connectionString = _configuration.GetConnectionString("Alphahome");
+            _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("Alphahome");
         }
         //public ApiResponse GetHomePage()
@@ -579,6 +581,28 @@ namespace Alphahome.Repositories
                     param.Add("email", user.email);
                     param.Add("password", user.password);
                     var data = conn.QueryFirstOrDefault<UserModelGet>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public Response UpdateUserToken(string userId, string refresh_token)
+        {
+            var procedure = "sp_user_update_token";
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    param.Add("userId", userId);
+                    param.Add("refresh_token", refresh_token);
+                    var data = conn.QueryFirstOrDefault<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
                     return data;
 
                 }

@@ -33,7 +33,7 @@ namespace Alphahome.Services.Interfaces
         Response DeleteProject(ProjectDelete projectDelete);
         Response DeletePost(PostDelete postDelete);
         List<ManageService> GetServices(int offSet, int pageSize);
-        UserModelGet Authenticate(AlphahomeUser user);
+        AuthenticateResponse Authenticate(AlphahomeUser user, string ipAddress);
 
     }
 }

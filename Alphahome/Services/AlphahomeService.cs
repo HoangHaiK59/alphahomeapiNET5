@@ -4,9 +4,14 @@ using Alphahome.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Alphahome.Services
@@ -15,11 +20,12 @@ namespace Alphahome.Services
     {
         private readonly IAlphahomeRepositoty _alphahomeRepo;
         private IConfiguration _configuration;
-        public AlphahomeService(IAlphahomeRepositoty alphahomeRepo)
+        public AlphahomeService(IAlphahomeRepositoty alphahomeRepo, IConfiguration config)
         {
-            IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(Environment.CurrentDirectory)
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            _configuration = builder.Build();
+            //IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(Environment.CurrentDirectory)
+            //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            //_configuration = builder.Build();
+            _configuration = config;
             _alphahomeRepo = alphahomeRepo;
         }
         //public ApiResponse GetHomePage()
@@ -116,9 +122,50 @@ namespace Alphahome.Services
         {
             return _alphahomeRepo.DeletePost(postDelete);
         }
-        public UserModelGet Authenticate(AlphahomeUser user)
+        public AuthenticateResponse Authenticate(AlphahomeUser user, string ipAddress)
         {
-            return _alphahomeRepo.Authenticate(user);
+            var userResponse = _alphahomeRepo.Authenticate(user);
+            if (userResponse == null) return null;
+            var token = GenerateJSONWebToken(user);
+            var refreshToken = generateRefreshToken(ipAddress);
+            _alphahomeRepo.UpdateUserToken(userResponse.userId, refreshToken.Token);
+            return new AuthenticateResponse(userResponse, token, refreshToken.Token);
+        }
+
+        private string GenerateJSONWebToken(AlphahomeUser user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Email, user.email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(null,
+              null,
+              claims,
+              expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private RefreshToken generateRefreshToken(string ipAddress)
+        {
+            using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
+            {
+                var randomBytes = new byte[64];
+                rngCryptoServiceProvider.GetBytes(randomBytes);
+                return new RefreshToken
+                {
+                    Token = Convert.ToBase64String(randomBytes),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    Created = DateTime.UtcNow,
+                    CreatedByIp = ipAddress
+                };
+            }
         }
 
         //public bool RevokeToken(string token, string ipAddress)
