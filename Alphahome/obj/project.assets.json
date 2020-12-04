@@ -7074,11 +7074,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ASP\\NET5\\Alphahome\\Alphahome\\Alphahome.csproj",
+      "projectUniqueName": "E:\\ASP\\NET5\\Alphahome\\Alphahome.csproj",
       "projectName": "Alphahome",
-      "projectPath": "E:\\ASP\\NET5\\Alphahome\\Alphahome\\Alphahome.csproj",
+      "projectPath": "E:\\ASP\\NET5\\Alphahome\\Alphahome.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "E:\\ASP\\NET5\\Alphahome\\Alphahome\\obj\\",
+      "outputPath": "E:\\ASP\\NET5\\Alphahome\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
