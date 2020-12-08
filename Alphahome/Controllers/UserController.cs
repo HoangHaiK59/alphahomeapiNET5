@@ -37,13 +37,30 @@ namespace User.Controllers
             var result = _alphahomeService.Authenticate(userInfo, ipAdress);
             if (result != null)
             {
-
+                setTokenCookie(result.RefreshToken);
                 return Ok(result) ;
             } else
             {
                 return response;
             }
 
+        }
+        /// <summary>
+        /// Lấy refresh_token và access_token
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("refresh-token")]
+        public IActionResult RefreshToken()
+        {
+            var refresh_token = Request.Cookies["refresh_token"];
+            var response = _alphahomeService.RefreshToken(refresh_token, ipAddress());
+
+            if (response == null)
+                return Unauthorized(new { message = "Invalid token" });
+
+            setTokenCookie(response.RefreshToken);
+
+            return Ok(response);
         }
 
         //[HttpPost("revoke-token")]
@@ -70,7 +87,7 @@ namespace User.Controllers
                 HttpOnly = true,
                 Expires = DateTime.UtcNow.AddDays(7)
             };
-            Response.Cookies.Append("refreshToken", token, cookieOptions);
+            Response.Cookies.Append("refresh_token", token, cookieOptions);
         }
 
         private string ipAddress()

@@ -126,19 +126,30 @@ namespace Alphahome.Services
         {
             var userResponse = _alphahomeRepo.Authenticate(user);
             if (userResponse == null) return null;
-            var token = GenerateJSONWebToken(user);
+            var token = generateJSONWebToken(userResponse);
             var refreshToken = generateRefreshToken(ipAddress);
             _alphahomeRepo.UpdateUserToken(userResponse.userId, refreshToken.Token);
             return new AuthenticateResponse(userResponse, token, refreshToken.Token);
         }
 
-        private string GenerateJSONWebToken(AlphahomeUser user)
+        public AuthenticateResponse RefreshToken(string refresh_token, string ipAddress)
+        {
+            var user = _alphahomeRepo.FindUserByRefreshToken(refresh_token);
+            if (user == null) return null;
+            var newRefreshToken = generateRefreshToken(ipAddress);
+            _alphahomeRepo.UpdateUserToken(user.userId, newRefreshToken.Token);
+            var jwtToken = generateJSONWebToken(user);
+            return new AuthenticateResponse(user, jwtToken, newRefreshToken.Token);
+        }
+
+        private string generateJSONWebToken(UserModelGet user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
+                new Claim(JwtRegisteredClaimNames.Email, user.userId),
                 new Claim(JwtRegisteredClaimNames.Email, user.email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -146,7 +157,7 @@ namespace Alphahome.Services
             var token = new JwtSecurityToken(null,
               null,
               claims,
-              expires: DateTime.Now.AddMinutes(120),
+              expires: DateTime.Now.AddMinutes(180),
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -161,7 +172,7 @@ namespace Alphahome.Services
                 return new RefreshToken
                 {
                     Token = Convert.ToBase64String(randomBytes),
-                    Expires = DateTime.UtcNow.AddDays(7),
+                    Expires = DateTime.UtcNow.AddYears(1),
                     Created = DateTime.UtcNow,
                     CreatedByIp = ipAddress
                 };

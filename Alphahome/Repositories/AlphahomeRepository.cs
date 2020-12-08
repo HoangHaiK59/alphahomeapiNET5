@@ -612,5 +612,26 @@ namespace Alphahome.Repositories
                 }
             }
         }
+
+        public UserModelGet FindUserByRefreshToken(string refresh_token)
+        {
+            var procedure = "sp_user_find_by_token";
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    param.Add("refresh_token", refresh_token);
+                    var data = conn.QueryFirstOrDefault<UserModelGet>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
     }
 }

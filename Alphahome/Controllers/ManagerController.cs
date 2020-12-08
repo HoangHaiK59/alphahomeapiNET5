@@ -26,6 +26,10 @@ namespace Manager.Controllers
         [HttpGet("GetServiceType")]
         public IActionResult getServiceType()
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.GetServiceType();
             return new JsonResult(data);
         }
@@ -39,6 +43,10 @@ namespace Manager.Controllers
         [HttpGet("GetProjectPage")]
         public IActionResult GetProjectPage(int offSet, int pageSize)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.GetProjectPage(offSet, pageSize);
             return new JsonResult(data);
         }
@@ -51,6 +59,10 @@ namespace Manager.Controllers
         [HttpGet("GetDetailProject")]
         public IActionResult GetDetailProject(long pId)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.GetDetailProject(pId);
             return new JsonResult(data);
         }
@@ -64,6 +76,10 @@ namespace Manager.Controllers
         [HttpGet("GetServices")]
         public IActionResult GetServices(int offSet, int pageSize)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.GetServices(offSet, pageSize);
             return new JsonResult(data);
         }
@@ -77,6 +93,10 @@ namespace Manager.Controllers
         [HttpGet("GetPosts")]
         public IActionResult GetPosts(int offSet, int pageSize)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.GetPosts(offSet, pageSize);
             return new JsonResult(data);
         }
@@ -90,6 +110,10 @@ namespace Manager.Controllers
         [HttpGet("GetManagerPage")]
         public IActionResult GetManagerPage(int offSet, int pageSize)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.GetManagerPage(offSet, pageSize);
             return new JsonResult(data);
         }
@@ -103,6 +127,10 @@ namespace Manager.Controllers
         [HttpGet("GetDetailById")]
         public IActionResult GetDetailById(long sid, string serviceTypeId)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.GetDetailById(sid, serviceTypeId);
             return new JsonResult(data);
         }
@@ -115,6 +143,10 @@ namespace Manager.Controllers
         [HttpPost("SetService")]
         public IActionResult SetService([FromBody] ServicePost service)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.SetNewService(service);
             if (data.valid)
             {
@@ -131,6 +163,10 @@ namespace Manager.Controllers
         [HttpPost("SetProject")]
         public IActionResult SetProject([FromBody] ProjectPost project)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.SetNewProject(project);
             if (data.valid)
             {
@@ -147,6 +183,10 @@ namespace Manager.Controllers
         [HttpPost("SetPost")]
         public IActionResult SetPost([FromBody] PostParam post)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.SetNewPost(post);
             if (data.valid)
             {
@@ -163,6 +203,10 @@ namespace Manager.Controllers
         [HttpDelete("DeleteService")]
         public IActionResult DeleteService([FromBody] ServiceDelete serviceDelete)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.DeleteService(serviceDelete);
             if (data.valid)
             {
@@ -179,6 +223,10 @@ namespace Manager.Controllers
         [HttpDelete("DeleteProject")]
         public IActionResult DeleteProject([FromBody] ProjectDelete projectDelete)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.DeleteProject(projectDelete);
             if (data.valid)
             {
@@ -195,6 +243,10 @@ namespace Manager.Controllers
         [HttpDelete("DeletePost")]
         public IActionResult DeletePost([FromBody] PostDelete postDelete)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var data = _alphahomeService.DeletePost(postDelete);
             if (data.valid)
             {

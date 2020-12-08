@@ -35,5 +35,6 @@ namespace Alphahome.Repositories.Interfaces
         List<ManageService> GetServices(int offSet, int pageSize);
         UserModelGet Authenticate(AlphahomeUser user);
         Response UpdateUserToken(string userId, string refresh_token);
+        UserModelGet FindUserByRefreshToken(string refresh_token);
     }
 }

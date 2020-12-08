@@ -34,6 +34,7 @@ namespace Alphahome.Services.Interfaces
         Response DeletePost(PostDelete postDelete);
         List<ManageService> GetServices(int offSet, int pageSize);
         AuthenticateResponse Authenticate(AlphahomeUser user, string ipAddress);
+        AuthenticateResponse RefreshToken(string refresh_token, string ipAddress);
 
     }
 }
