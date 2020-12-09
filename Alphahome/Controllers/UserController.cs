@@ -7,6 +7,7 @@ using Alphahome.Services.Interfaces;
 using Alphahome.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -53,6 +54,10 @@ namespace User.Controllers
         public IActionResult RefreshToken()
         {
             var refresh_token = Request.Cookies["refresh_token"];
+            if (refresh_token == null)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
             var response = _alphahomeService.RefreshToken(refresh_token, ipAddress());
 
             if (response == null)
@@ -84,8 +89,10 @@ namespace User.Controllers
         {
             var cookieOptions = new CookieOptions
             {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(7)
+                HttpOnly = false,
+                Expires = DateTime.UtcNow.AddDays(7),
+                IsEssential = true,
+                Path = "/"
             };
             Response.Cookies.Append("refresh_token", token, cookieOptions);
         }

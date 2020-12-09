@@ -26,7 +26,6 @@ namespace Alphahome.State
 
             if (token != null)
                 await attachUser(context, token);
-
             await _next(context);
         }
         private async Task attachUser(HttpContext context, string token)
@@ -34,7 +33,7 @@ namespace Alphahome.State
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+                var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -45,7 +44,7 @@ namespace Alphahome.State
 
                 }, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = (jwtToken.Claims.First(x => x.Type == "userId").Value);
+                var userId = (jwtToken.Claims.First(x => x.Type == "sub").Value);
                 context.Items["Account"] = userId;
                 if (!string.IsNullOrEmpty(userId))
                 {
@@ -55,9 +54,9 @@ namespace Alphahome.State
                 {
                 }
             } 
-            catch
+            catch (Exception ex)
             {
-
+                throw ex;
             }
 
         }

@@ -136,10 +136,10 @@ namespace Alphahome.Services
         {
             var user = _alphahomeRepo.FindUserByRefreshToken(refresh_token);
             if (user == null) return null;
-            var newRefreshToken = generateRefreshToken(ipAddress);
-            _alphahomeRepo.UpdateUserToken(user.userId, newRefreshToken.Token);
+            //var newRefreshToken = generateRefreshToken(ipAddress);
+            //_alphahomeRepo.UpdateUserToken(user.userId, newRefreshToken.Token);
             var jwtToken = generateJSONWebToken(user);
-            return new AuthenticateResponse(user, jwtToken, newRefreshToken.Token);
+            return new AuthenticateResponse(user, jwtToken, refresh_token);
         }
 
         private string generateJSONWebToken(UserModelGet user)
@@ -149,7 +149,7 @@ namespace Alphahome.Services
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Email, user.userId),
+                new Claim(JwtRegisteredClaimNames.Sub, user.userId),
                 new Claim(JwtRegisteredClaimNames.Email, user.email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -157,7 +157,7 @@ namespace Alphahome.Services
             var token = new JwtSecurityToken(null,
               null,
               claims,
-              expires: DateTime.Now.AddMinutes(180),
+              expires: DateTime.Now.AddMinutes(1),
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
