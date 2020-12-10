@@ -23,9 +23,12 @@ namespace Alphahome.State
         public async Task Invoke(HttpContext context)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            if (context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").First() != "Basic")
+            {
+                if (token != null)
+                    await attachUser(context, token);
+            }
 
-            if (token != null)
-                await attachUser(context, token);
             await _next(context);
         }
         private async Task attachUser(HttpContext context, string token)

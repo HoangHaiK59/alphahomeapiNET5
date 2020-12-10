@@ -35,6 +35,6 @@ namespace Alphahome.Services.Interfaces
         List<ManageService> GetServices(int offSet, int pageSize);
         AuthenticateResponse Authenticate(AlphahomeUser user, string ipAddress);
         AuthenticateResponse RefreshToken(string refresh_token, string ipAddress);
-
+        ServiceDetail GetServiceById(long id);
     }
 }

@@ -9,5 +9,6 @@ namespace Alphahome.Models
     {
         public List<Service> services { get; set; }
         public List<Project> projects { get; set; }
+        public List<Post> posts { get; set; }
     }
 }

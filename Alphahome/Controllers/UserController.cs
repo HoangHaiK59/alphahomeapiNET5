@@ -53,7 +53,7 @@ namespace User.Controllers
         [HttpPost("refresh-token")]
         public IActionResult RefreshToken()
         {
-            var refresh_token = Request.Cookies["refresh_token"];
+            var refresh_token = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             if (refresh_token == null)
             {
                 return Unauthorized(new { message = "Invalid token" });

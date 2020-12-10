@@ -121,17 +121,16 @@ namespace Manager.Controllers
         /// <summary>
         /// Lấy ra chi tiết dịch vụ
         /// </summary>
-        /// <param name="sid"></param>
-        /// <param name="serviceTypeId"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("GetDetailById")]
-        public IActionResult GetDetailById(long sid, string serviceTypeId)
+        [HttpGet("GetServiceById")]
+        public IActionResult GetServiceById(long id)
         {
             if (!Request.Headers.ContainsKey("Authorization"))
             {
                 return Unauthorized();
             }
-            var data = _alphahomeService.GetDetailById(sid, serviceTypeId);
+            var data = _alphahomeService.GetServiceById(id);
             return new JsonResult(data);
         }
 

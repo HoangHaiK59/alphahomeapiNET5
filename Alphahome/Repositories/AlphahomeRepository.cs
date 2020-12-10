@@ -173,9 +173,10 @@ namespace Alphahome.Repositories
                     {
                         var services = reader.Read<Service>().ToList();
                         var projects = reader.Read<Project>().ToList();
-                        return new Management { services = services, projects = projects };
+                        var posts = reader.Read<Post>().ToList();
+                        return new Management { services = services, projects = projects, posts = posts };
                     }
-                    return new Management { services = null, projects = null };
+                    return new Management { services = null, projects = null, posts = null };
                     //return new ApiResponse("success", data, 200, "1.0.0.0");
                 }
                 catch (Exception ex)
@@ -207,6 +208,34 @@ namespace Alphahome.Repositories
 
                     return new ServiceDetail();
                     
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
+        public ServiceDetail GetServiceById(long id)
+        {
+            var procedure = "sp_manage_service_detail";
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    param.Add("id", id);
+                    var reader = conn.QueryMultiple(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                    if (reader != null)
+                    {
+                        var service = reader.Read<ServiceDetail>().FirstOrDefault();
+                        var images = reader.Read<Image>().ToList();
+                        service.images = images;
+                        return service;
+                    }
+
+                    return new ServiceDetail();
+
                 }
                 catch (Exception ex)
                 {

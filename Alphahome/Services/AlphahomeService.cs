@@ -122,6 +122,10 @@ namespace Alphahome.Services
         {
             return _alphahomeRepo.DeletePost(postDelete);
         }
+        public ServiceDetail GetServiceById(long id)
+        {
+            return _alphahomeRepo.GetServiceById(id);
+        }
         public AuthenticateResponse Authenticate(AlphahomeUser user, string ipAddress)
         {
             var userResponse = _alphahomeRepo.Authenticate(user);
@@ -157,7 +161,7 @@ namespace Alphahome.Services
             var token = new JwtSecurityToken(null,
               null,
               claims,
-              expires: DateTime.Now.AddMinutes(1),
+              expires: DateTime.Now.AddMinutes(180),
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

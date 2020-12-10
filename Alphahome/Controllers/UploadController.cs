@@ -29,6 +29,10 @@ namespace Upload.Controllers
         [HttpPost("UploadImage")]
         public IActionResult UploadFile ([FromForm] IFormFile formFile)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var result = _alphahomeService.UploadImage(formFile).Result;
             if (!string.IsNullOrEmpty(result))
             {
@@ -47,6 +51,10 @@ namespace Upload.Controllers
         [Consumes("multipart/form-data")]
         public IActionResult UploadMultiImage(IFormFileCollection upload)
         {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
             var result = _alphahomeService.UploadMultiImage(upload).Result;
             if (result.Count > 0)
             {
