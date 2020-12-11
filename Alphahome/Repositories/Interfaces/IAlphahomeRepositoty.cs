@@ -29,6 +29,9 @@ namespace Alphahome.Repositories.Interfaces
         Response SetNewPost(PostParam post);
         Response SetNewService(ServicePost service);
         Response SetNewProject(ProjectPost project);
+        Response UpdatePost(PostUpdate post);
+        Response UpdateService(ServiceUpdate service);
+        Response UpdateProject(ProjectUpdate project);
         Response DeleteService(ServiceDelete serviceDelete);
         Response DeleteProject(ProjectDelete projectDelete);
         Response DeletePost(PostDelete postDelete);

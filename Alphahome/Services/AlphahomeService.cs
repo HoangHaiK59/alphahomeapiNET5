@@ -96,6 +96,18 @@ namespace Alphahome.Services
         {
             return _alphahomeRepo.SetNewProject(project);
         }
+        public Response UpdatePost(PostUpdate post)
+        {
+            return _alphahomeRepo.UpdatePost(post);
+        }
+        public Response UpdateService(ServiceUpdate service)
+        {
+            return _alphahomeRepo.UpdateService(service);
+        }
+        public Response UpdateProject(ProjectUpdate project)
+        {
+            return _alphahomeRepo.UpdateProject(project);
+        }
 
         public List<ManageService> GetServices(int offSet, int pageSize)
         {

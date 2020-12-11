@@ -36,6 +36,15 @@ namespace Alphahome.Models
         public string url { get; set; }
         public string images { get; set; }
     }
+    public class PostUpdate
+    {
+        public long id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string content { get; set; }
+        public string url { get; set; }
+        public string images { get; set; }
+    }
     public class PostDelete
     {
         public long id { get; set; }

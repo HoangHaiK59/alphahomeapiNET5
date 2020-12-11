@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Alphahome.Services.Interfaces;
 using Alphahome.Models;
+using Microsoft.AspNetCore.Hosting;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,9 +16,11 @@ namespace Manager.Controllers
     public class ManagerController : ControllerBase
     {
         private readonly IAlphahomeService _alphahomeService;
-        public ManagerController(IAlphahomeService alphahomeService)
+        private readonly IWebHostEnvironment _env;
+        public ManagerController(IAlphahomeService alphahomeService, IWebHostEnvironment environment)
         {
             _alphahomeService = alphahomeService;
+            _env = environment;
         }
         /// <summary>
         /// Lấy ra các loại dịch vụ
@@ -98,6 +101,22 @@ namespace Manager.Controllers
                 return Unauthorized();
             }
             var data = _alphahomeService.GetPosts(offSet, pageSize);
+            return new JsonResult(data);
+        }
+
+        /// <summary>
+        /// Lấy ra chi tiết tin tức
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <returns></returns>
+        [HttpGet("GetDetailPost")]
+        public ActionResult GetDetailPost(long postId)
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var data = _alphahomeService.GetDetailPost(postId);
             return new JsonResult(data);
         }
 
@@ -195,6 +214,66 @@ namespace Manager.Controllers
         }
 
         /// <summary>
+        /// Cập nhật bài viết
+        /// </summary>
+        /// <param name="post"></param>
+        /// <returns></returns>
+        [HttpPost("UpdatePost")]
+        public IActionResult UpdatePost([FromBody] PostUpdate post)
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var data = _alphahomeService.UpdatePost(post);
+            if (data.valid)
+            {
+                return new JsonResult(data);
+            }
+            return BadRequest(data);
+        }
+
+        /// <summary>
+        /// Cập nhật thông tin dịch vụ
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        [HttpPost("UpdateService")]
+        public IActionResult UpdateService([FromBody] ServiceUpdate service)
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var data = _alphahomeService.UpdateService(service);
+            if (data.valid)
+            {
+                return new JsonResult(data);
+            }
+            return BadRequest(data);
+        }
+
+        /// <summary>
+        /// Cập nhật thông tin dự án
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        [HttpPost("UpdateProject")]
+        public IActionResult UpdateProject([FromBody] ProjectUpdate project)
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var data = _alphahomeService.UpdateProject(project);
+            if (data.valid)
+            {
+                return new JsonResult(data);
+            }
+            return BadRequest(data);
+        }
+
+        /// <summary>
         /// Xóa dịch vụ
         /// </summary>
         /// <param name="serviceDelete"></param>
@@ -252,6 +331,26 @@ namespace Manager.Controllers
                 return new JsonResult(data);
             }
             return BadRequest(data);
+        }
+        /// <summary>
+        /// Thư viện hình ảnh
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Library")]
+        public IActionResult Library()
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var files = _env.ContentRootFileProvider.GetDirectoryContents("wwwroot/images");
+            var listFileName = new List<string>();
+            foreach(var file in files)
+            {
+                listFileName.Add("/images/" + file.Name);
+            }
+
+            return Ok(listFileName);
         }
     }
 }

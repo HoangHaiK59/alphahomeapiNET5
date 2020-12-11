@@ -425,11 +425,11 @@ namespace Alphahome.Repositories
                     {
                         conn.Open();
                         var param = new DynamicParameters();
-                        param.Add("name", service.name);
-                        param.Add("description", service.description);
-                        param.Add("content", service.content);
-                        param.Add("url", service.url);
-                        param.Add("serviceTypeId", service.serviceTypeId);
+                        param.Add("INname", service.name);
+                        param.Add("INdescription", service.description);
+                        param.Add("INcontent", service.content);
+                        param.Add("INurl", service.url);
+                        param.Add("INserviceTypeId", service.serviceTypeId);
                         var data = conn.QueryFirstOrDefault<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
                         return data;
 
@@ -660,6 +660,106 @@ namespace Alphahome.Repositories
                 {
                     throw;
                 }
+            }
+        }
+
+        public Response UpdatePost(PostUpdate post)
+        {
+            var result = RunInsertJson(post.images);
+
+            if (result.valid)
+            {
+                var procedure = "sp_post_update";
+
+                using (var conn = new MySqlConnection(_connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        var param = new DynamicParameters();
+                        param.Add("INid", post.id);
+                        param.Add("INname", post.name);
+                        param.Add("INcontent", post.content);
+                        param.Add("INurl", post.url);
+                        var data = conn.QueryFirstOrDefault<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                        return data;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        public Response UpdateService(ServiceUpdate service)
+        {
+            var result = RunInsertJson(service.images);
+            if (result.valid)
+            {
+                var procedure = "sp_service_update";
+                using (var conn = new MySqlConnection(_connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        var param = new DynamicParameters();
+                        param.Add("INid", service.id);
+                        param.Add("INname", service.name);
+                        param.Add("INdescription", service.description);
+                        param.Add("INcontent", service.content);
+                        param.Add("INurl", service.url);
+                        param.Add("INserviceTypeId", service.serviceTypeId);
+                        var data = conn.QueryFirstOrDefault<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                        return data;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public Response UpdateProject(ProjectUpdate project)
+        {
+            var result = RunInsertJson(project.images);
+            if (result.valid)
+            {
+                var procedure = "sp_project_update";
+                using (var conn = new MySqlConnection(_connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        var param = new DynamicParameters();
+                        param.Add("INid", project.id);
+                        param.Add("INname", project.name);
+                        param.Add("INdescription", project.description);
+                        param.Add("INcontent", project.content);
+                        param.Add("INurl", project.url);
+                        var data = conn.QueryFirstOrDefault<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                        return data;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+            }
+            else
+            {
+                return null;
             }
         }
     }

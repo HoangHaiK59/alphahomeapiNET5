@@ -41,6 +41,17 @@ namespace Alphahome.Models
         public string images { get; set; }
     }
 
+    public class ServiceUpdate
+    {
+        public long id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string content { get; set; }
+        public string url { get; set; }
+        public string serviceTypeId { get; set; }
+        public string images { get; set; }
+    }
+
     public class ServiceType
     {
         public string uid { get; set; }
