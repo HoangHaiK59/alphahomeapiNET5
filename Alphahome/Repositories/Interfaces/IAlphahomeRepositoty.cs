@@ -10,7 +10,7 @@ namespace Alphahome.Repositories.Interfaces
 {
     public interface IAlphahomeRepositoty
     {
-        //ApiResponse GetHomePage();
+        Home GetHomePage();
         //ApiResponse GetCategoryList();
         Task<string> UploadImage(IFormFile formFile);
         Task<List<string>> UploadMultiImage(IFormFileCollection formFiles);

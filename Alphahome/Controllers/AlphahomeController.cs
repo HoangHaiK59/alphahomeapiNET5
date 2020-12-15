@@ -19,6 +19,21 @@ namespace Alphahome.Controllers
         {
             _alphahomeService = alphahomeService;
         }
+
+        /// <summary>
+        /// Trang chủ
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetHomePage")]
+        public ActionResult GetHomePage()
+        {
+            var data = _alphahomeService.GetHomePage();
+            if ((data.services.Count <=0 || data.service_types.Count <=0))
+            {
+                return BadRequest();
+            }
+            return Ok(data);
+        }
        /// <summary>
        ///  Lấy ra loại dịch vụ
        /// </summary>

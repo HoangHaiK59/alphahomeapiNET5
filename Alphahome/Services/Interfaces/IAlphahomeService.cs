@@ -10,7 +10,7 @@ namespace Alphahome.Services.Interfaces
 {
     public interface IAlphahomeService
     {
-        //ApiResponse GetHomePage();
+        Home GetHomePage();
         //ApiResponse GetCategoryList();
         Task<string> UploadImage(IFormFile uFile);
         Task<List<string>> UploadMultiImage(IFormFileCollection formFiles);

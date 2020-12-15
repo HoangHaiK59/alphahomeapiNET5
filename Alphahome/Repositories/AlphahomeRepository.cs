@@ -32,11 +32,33 @@ namespace Alphahome.Repositories
             _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("Alphahome");
         }
-        //public ApiResponse GetHomePage()
-        //{
-        //    return new ApiResponse();
 
-        //}
+        public Home GetHomePage()
+        {
+            var procedure = "sp_home";
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    var reader = conn.QueryMultiple(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                    if (reader != null)
+                    {
+                        var data = reader.Read<ExtractModel>().ToList();
+                        var services_types = reader.Read<ServiceType>().ToList();
+                        return new Home { services = data, service_types = services_types };
+                    }
+                    return new Home { services = null, service_types = null };
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+
+        }
+
         //public ApiResponse GetCategoryList()
         //{
         //    return new ApiResponse();

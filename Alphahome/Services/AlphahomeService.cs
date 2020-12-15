@@ -28,10 +28,10 @@ namespace Alphahome.Services
             _configuration = config;
             _alphahomeRepo = alphahomeRepo;
         }
-        //public ApiResponse GetHomePage()
-        //{
-        //    return _alphahomeRepo.GetHomePage();
-        //}
+        public Home GetHomePage()
+        {
+            return _alphahomeRepo.GetHomePage();
+        }
         //public ApiResponse GetCategoryList()
         //{
         //    return _alphahomeRepo.GetCategoryList();
