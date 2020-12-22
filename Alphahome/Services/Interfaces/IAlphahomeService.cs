@@ -21,7 +21,7 @@ namespace Alphahome.Services.Interfaces
         List<Service> GetWoodenPage(string serviceTypeId, int offset, int pagesize);
         List<Service> GetContructionFurniturePage(string serviceTypeId, int offset, int pagesize);
         List<Service> GetContructionHousePage(string serviceTypeId, int offset, int pagesize);
-        ServiceDetail GetDetailById([FromQuery] long sid, [FromQuery] string serviceTypeId);
+        ServiceDetail GetDetailById([FromQuery] long sid);
         List<Project> GetProjectPage(int offSet, int pageSize);
         ProjectDetail GetDetailProject(long pId);
         List<Post> GetPosts(int offSet, int pageSize);

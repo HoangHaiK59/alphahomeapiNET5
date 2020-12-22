@@ -64,9 +64,9 @@ namespace Alphahome.Services
         {
             return _alphahomeRepo.GetContructionHousePage(serviceTypeId, offset, pagesize);
         }
-        public ServiceDetail GetDetailById([FromQuery] long sid, [FromQuery] string serviceTypeId)
+        public ServiceDetail GetDetailById([FromQuery] long sid)
         {
-            return _alphahomeRepo.GetDetailById(sid, serviceTypeId);
+            return _alphahomeRepo.GetDetailById(sid);
         }
         public List<Project> GetProjectPage(int offSet, int pageSize)
         {

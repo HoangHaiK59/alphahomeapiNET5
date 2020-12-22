@@ -142,12 +142,11 @@ namespace Alphahome.Controllers
         /// Lấy ra dịch vụ theo id
         /// </summary>
         /// <param name="sid"></param>
-        /// <param name="serviceTypeId"></param>
         /// <returns></returns>
         [HttpGet("GetDetailById")]
-        public ActionResult GetDetailById(long sid, string serviceTypeId)
+        public ActionResult GetDetailById(long sid)
         {
-            var data = _alphahomeService.GetDetailById(sid, serviceTypeId);
+            var data = _alphahomeService.GetDetailById(sid);
             return Ok(data);
         }
 

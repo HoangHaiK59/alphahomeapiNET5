@@ -208,7 +208,7 @@ namespace Alphahome.Repositories
             }
         }
 
-        public ServiceDetail GetDetailById(long sid, string serviceTypeId)
+        public ServiceDetail GetDetailById(long sid)
         {
             var procedure = "sp_service_detail";
             using (var conn = new MySqlConnection(_connectionString))
@@ -218,7 +218,6 @@ namespace Alphahome.Repositories
                     conn.Open();
                     var param = new DynamicParameters();
                     param.Add("sid", sid);
-                    param.Add("stypeId", serviceTypeId);
                     var reader = conn.QueryMultiple(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
                     if(reader != null)
                     {
