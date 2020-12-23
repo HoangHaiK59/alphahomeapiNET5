@@ -40,5 +40,6 @@ namespace Alphahome.Repositories.Interfaces
         Response UpdateUserToken(string userId, string refresh_token);
         UserModelGet FindUserByRefreshToken(string refresh_token);
         ServiceDetail GetServiceById(long id);
+        List<Search> Search(string query);
     }
 }

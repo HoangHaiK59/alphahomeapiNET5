@@ -783,5 +783,26 @@ namespace Alphahome.Repositories
                 return null;
             }
         }
+
+        public List<Search> Search(string query)
+        {
+            var procedure = "sp_search";
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    param.Add("q", query);
+                    var data = conn.Query<Search>(procedure, param, commandType: System.Data.CommandType.StoredProcedure).ToList();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
     }
 }

@@ -138,6 +138,10 @@ namespace Alphahome.Services
         {
             return _alphahomeRepo.GetServiceById(id);
         }
+        public List<Search> Search(string query)
+        {
+            return _alphahomeRepo.Search(query);
+        }
         public AuthenticateResponse Authenticate(AlphahomeUser user, string ipAddress)
         {
             var userResponse = _alphahomeRepo.Authenticate(user);

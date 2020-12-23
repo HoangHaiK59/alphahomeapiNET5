@@ -174,5 +174,17 @@ namespace Alphahome.Controllers
             var data = _alphahomeService.GetDetailPost(postId);
             return Ok(data);
         }
+
+        /// <summary>
+        /// Tìm kiếm
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpGet("Search")]
+        public ActionResult Search(string query)
+        {
+            var data = _alphahomeService.Search(query);
+            return Ok(data);
+        }
     }
 }
