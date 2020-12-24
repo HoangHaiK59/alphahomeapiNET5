@@ -11,5 +11,6 @@ namespace Alphahome.Models
         public string name { get; set; }
         public string service_type { get; set; }
         public long postId { get; set; }
+        public string url { get; set; }
     }
 }
