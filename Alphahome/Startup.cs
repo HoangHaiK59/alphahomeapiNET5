@@ -141,6 +141,26 @@ namespace Alphahome
                 RequestPath = "/images"
             });
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+             Path.Combine(env.WebRootPath, "ads")),
+                RequestPath = "/ads",
+                OnPrepareResponse = ctx =>
+                {
+                    // using Microsoft.AspNetCore.Http;
+                    ctx.Context.Response.Headers.Append(
+                         "Cache-Control", $"public, max-age={cacheMaxAge}");
+                }
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(env.WebRootPath, "ads")),
+                RequestPath = "/ads"
+            });
+
             app.UseRouting();
 
             app.UseMiddleware<JwtMiddleware>();

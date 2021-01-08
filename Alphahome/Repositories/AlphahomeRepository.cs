@@ -558,6 +558,70 @@ namespace Alphahome.Repositories
             }
             return fileCreates;
         }
+        public async Task<List<Ads>> UploadVideoAds(IFormFileCollection formFiles)
+        {
+            List<Ads> fileCreates = new List<Ads>();
+            if (formFiles != null && formFiles.Count > 0)
+            {
+                foreach (var file in formFiles)
+                {
+                    var fileName = Guid.NewGuid().ToString();
+                    fileName = fileName + "." + Path.GetFileName(file.FileName).Split(".")[1];
+                    var fileUrl = "/ads/" + fileName;
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\ads", fileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                    if (fileName != "")
+                    {
+                        var fileDoneUpload = new Ads { name = fileName, url = fileUrl };
+                        fileCreates.Add(fileDoneUpload);
+                    }
+                }
+
+            }
+            return fileCreates;
+        }
+        public List<Ads> GetAdsVideo(int numVideo)
+        {
+            var procedure = "sp_ads_video";
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    param.Add("numVideo", numVideo);
+                    var data = conn.Query<Ads>(procedure, param, commandType: System.Data.CommandType.StoredProcedure).ToList();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
+        public List<Ads> ManageAdsVideo()
+        {
+            var procedure = "sp_manage_ads_video";
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    var data = conn.Query<Ads>(procedure, param, commandType: System.Data.CommandType.StoredProcedure).ToList();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
         public Response DeleteService(ServiceDelete serviceDelete)
         {
             var procedure = "sp_del_service";

@@ -352,5 +352,19 @@ namespace Manager.Controllers
 
             return Ok(listFileName);
         }
+        /// <summary>
+        /// Quản lý quảng cáo
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("ManageAdsVideo")]
+        public IActionResult ManageAdsVideo()
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var list = _alphahomeService.ManageAdsVideo();
+            return Ok(list);
+        }
     }
 }

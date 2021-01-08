@@ -49,13 +49,30 @@ namespace Upload.Controllers
         /// <returns></returns>
         [HttpPost("UploadMultiImage")]
         [Consumes("multipart/form-data")]
-        public IActionResult UploadMultiImage(IFormFileCollection upload)
+        public IActionResult UploadMultiImage(IFormFileCollection formFiles)
         {
             if (!Request.Headers.ContainsKey("Authorization"))
             {
                 return Unauthorized();
             }
-            var result = _alphahomeService.UploadMultiImage(upload).Result;
+            var result = _alphahomeService.UploadMultiImage(formFiles).Result;
+            if (result.Count > 0)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("UploadVideoAds")]
+        [Consumes("multipart/form-data")]
+        public IActionResult UploadVideoAds(IFormFileCollection formFiles)
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var result = _alphahomeService.UploadVideoAds(formFiles).Result;
             if (result.Count > 0)
             {
                 return Ok(result);

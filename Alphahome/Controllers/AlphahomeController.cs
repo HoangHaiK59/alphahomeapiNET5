@@ -186,5 +186,16 @@ namespace Alphahome.Controllers
             var data = _alphahomeService.Search(query);
             return Ok(data);
         }
+        /// <summary>
+        /// Quảng cáo
+        /// </summary>
+        /// <param name="numVideo"></param>
+        /// <returns></returns>
+        [HttpGet("GetAdsVideo")]
+        public ActionResult GetAdsVideo(int numVideo)
+        {
+            var data = _alphahomeService.GetAdsVideo(numVideo);
+            return Ok(data);
+        }
     }
 }

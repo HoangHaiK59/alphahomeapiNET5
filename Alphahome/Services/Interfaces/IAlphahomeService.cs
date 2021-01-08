@@ -14,6 +14,9 @@ namespace Alphahome.Services.Interfaces
         //ApiResponse GetCategoryList();
         Task<string> UploadImage(IFormFile uFile);
         Task<List<string>> UploadMultiImage(IFormFileCollection formFiles);
+        Task<List<Ads>> UploadVideoAds(IFormFileCollection formFiles);
+        List<Ads> GetAdsVideo(int numVideo);
+        List<Ads> ManageAdsVideo();
         List<ServiceType> GetServiceType();
         ServiceType GetServiceByOrder(int order);
         Management GetManagerPage(int offSet, int pageSize);

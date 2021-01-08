@@ -122,6 +122,18 @@ namespace Alphahome.Services
         {
             return _alphahomeRepo.UploadMultiImage(formFiles);
         }
+        public Task<List<Ads>> UploadVideoAds(IFormFileCollection formFiles)
+        {
+            return _alphahomeRepo.UploadVideoAds(formFiles);
+        }
+        public List<Ads> GetAdsVideo(int numVideo)
+        {
+            return _alphahomeRepo.GetAdsVideo(numVideo);
+        }
+        public List<Ads> ManageAdsVideo()
+        {
+            return _alphahomeRepo.ManageAdsVideo();
+        }
         public Response DeleteService(ServiceDelete serviceDelete)
         {
             return _alphahomeRepo.DeleteService(serviceDelete);
