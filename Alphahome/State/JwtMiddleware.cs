@@ -28,7 +28,7 @@ namespace Alphahome.State
                 if (token != null)
                     await attachUser(context, token);
             }
-
+            context.Request.Headers.Clear();
             await _next(context);
         }
         private async Task attachUser(HttpContext context, string token)

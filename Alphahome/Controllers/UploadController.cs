@@ -45,7 +45,7 @@ namespace Upload.Controllers
         /// <summary>
         /// Thêm nhiều ảnh
         /// </summary>
-        /// <param name="upload"></param>
+        /// <param name="formFiles"></param>
         /// <returns></returns>
         [HttpPost("UploadMultiImage")]
         [Consumes("multipart/form-data")]
@@ -64,6 +64,11 @@ namespace Upload.Controllers
             return BadRequest(result);
         }
 
+        /// <summary>
+        /// Tải lên video ads
+        /// </summary>
+        /// <param name="formFiles"></param>
+        /// <returns></returns>
         [HttpPost("UploadVideoAds")]
         [Consumes("multipart/form-data")]
         public IActionResult UploadVideoAds(IFormFileCollection formFiles)

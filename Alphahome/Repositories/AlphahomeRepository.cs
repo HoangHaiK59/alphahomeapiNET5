@@ -400,6 +400,101 @@ namespace Alphahome.Repositories
             }
 
         }
+
+        public Response UploadLinkAdsVideo(AdsPost adsPost)
+        {
+            var result = RunInsertJson(adsPost.jdoc);
+            if (result.valid)
+            {
+                var procedure = "sp_ads_video_set";
+
+                using (var conn = new MySqlConnection(_connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        var param = new DynamicParameters();
+                        var data = conn.QueryFirstOrDefault<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                        return data;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Response DeleteAdsVideo(int id)
+        {
+            var procedure = "sp_ads_delete";
+
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    param.Add("id", id);
+                    var data = conn.QueryFirstOrDefault<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public Ads FindAdsById(int id)
+        {
+            var procedure = "sp_get_ads_by_id";
+
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    param.Add("id", id);
+                    var data = conn.QueryFirstOrDefault<Ads>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
+        public Response UpdateQueue(Ads ads)
+        {
+            var procedure = "sp_ads_update_queue";
+
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    param.Add("id", ads.id);
+                    param.Add("queue", ads.queue);
+                    var data = conn.QueryFirstOrDefault<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
         public Response SetNewPost(PostParam post)
         {
 

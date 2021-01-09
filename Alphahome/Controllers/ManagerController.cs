@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Alphahome.Services.Interfaces;
 using Alphahome.Models;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -365,6 +366,72 @@ namespace Manager.Controllers
             }
             var list = _alphahomeService.ManageAdsVideo();
             return Ok(list);
+        }
+
+        /// <summary>
+        /// Lưu link video
+        /// </summary>
+        /// <param name="adsPost"></param>
+        /// <returns></returns>
+        [HttpPost("UploadLinkAdsVideo")]
+        public IActionResult UploadLinkAdsVideo([FromBody] AdsPost adsPost)
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var response = _alphahomeService.UploadLinkAdsVideo(adsPost);
+            if (response.valid)
+            {
+                return Ok(response);
+            }
+            return BadRequest();
+        }
+
+        /// <summary>
+        /// Xóa video ads
+        /// </summary>
+        /// <param name="adsDelete"></param>
+        /// <returns></returns>
+        [HttpDelete("DeleteAdsVideo")]
+        public IActionResult DeleteAdsVideo([FromBody] AdsDelete adsDelete)
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var deleteAds = _alphahomeService.FindAdsById(adsDelete.id);
+            var fileToDelete = Path.Combine(_env.WebRootPath, "ads\\", deleteAds.name);
+            if ((System.IO.File.Exists(fileToDelete)))
+            {
+                System.IO.File.Delete(fileToDelete);
+            }
+            var response = _alphahomeService.DeleteAdsVideo(adsDelete.id);
+            if (response.valid)
+            {
+                return Ok(response);
+            }
+            return BadRequest();
+        }
+
+        /// <summary>
+        /// Thay đổi thứ tự hàng chờ
+        /// </summary>
+        /// <param name="ads"></param>
+        /// <returns></returns>
+        [HttpPut("SetAdsQueue")]
+        public IActionResult SetAdsQueue([FromBody] Ads ads)
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized();
+            }
+            var response = _alphahomeService.UpdateQueue(ads);
+            if (response.valid)
+            {
+                return Ok(response);
+            }
+            return BadRequest();
         }
     }
 }

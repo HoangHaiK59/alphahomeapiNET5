@@ -134,6 +134,23 @@ namespace Alphahome.Services
         {
             return _alphahomeRepo.ManageAdsVideo();
         }
+        public Response DeleteAdsVideo(int id)
+        {
+            return _alphahomeRepo.DeleteAdsVideo(id);
+        }
+        public Ads FindAdsById(int id)
+        {
+            return _alphahomeRepo.FindAdsById(id);
+        }
+
+        public Response UpdateQueue(Ads ads)
+        {
+            return _alphahomeRepo.UpdateQueue(ads);
+        }
+        public Response UploadLinkAdsVideo(AdsPost adsPost)
+        {
+            return _alphahomeRepo.UploadLinkAdsVideo(adsPost);
+        }
         public Response DeleteService(ServiceDelete serviceDelete)
         {
             return _alphahomeRepo.DeleteService(serviceDelete);

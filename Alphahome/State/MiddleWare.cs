@@ -22,6 +22,24 @@ namespace Alphahome.State
             _logger = loggerFactory?.CreateLogger<ResponseMiddleware>() ?? throw new ArgumentNullException(nameof(loggerFactory));
         }
 
+        private Task HandleExceptionAsync(HttpContext context, Exception ex)
+        {
+            if (!context.Response.HasStarted)
+            {
+                string result;
+
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                result = JsonConvert.SerializeObject(new { error = "An error has occured" });
+
+                context.Response.ContentType = "application/json";
+                return context.Response.WriteAsync(result);
+            }
+            else
+            {
+                return context.Response.WriteAsync(string.Empty);
+            }
+        }
+
         public async Task Invoke(HttpContext context)
         {
             var originBody = context.Response.Body;
@@ -68,6 +86,7 @@ namespace Alphahome.State
                     context.Response.StatusCode = (int)HttpStatusCode.OK;
                     context.Response.ContentType = "application/json";
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(responseModel));
+
                 }
             }
         }

@@ -17,6 +17,10 @@ namespace Alphahome.Services.Interfaces
         Task<List<Ads>> UploadVideoAds(IFormFileCollection formFiles);
         List<Ads> GetAdsVideo(int numVideo);
         List<Ads> ManageAdsVideo();
+        Response DeleteAdsVideo(int id);
+        Ads FindAdsById(int id);
+        Response UpdateQueue(Ads ads);
+        Response UploadLinkAdsVideo(AdsPost adsPost);
         List<ServiceType> GetServiceType();
         ServiceType GetServiceByOrder(int order);
         Management GetManagerPage(int offSet, int pageSize);
