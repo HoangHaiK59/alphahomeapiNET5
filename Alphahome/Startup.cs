@@ -108,7 +108,7 @@ namespace Alphahome
                 app.UseDeveloperExceptionPage();
                 app.UseForwardedHeaders();
                 app.UseSwagger(c => c.SerializeAsV2 = true);
-                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alphahome v1");  });
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alphahome v1"); });
 
             } else
             {

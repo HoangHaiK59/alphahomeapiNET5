@@ -49,7 +49,7 @@ namespace Upload.Controllers
         /// <returns></returns>
         [HttpPost("UploadMultiImage")]
         [Consumes("multipart/form-data")]
-        public IActionResult UploadMultiImage(IFormFileCollection formFiles)
+        public IActionResult UploadMultiImage([FromForm] IFormFileCollection formFiles)
         {
             if (!Request.Headers.ContainsKey("Authorization"))
             {
@@ -71,7 +71,7 @@ namespace Upload.Controllers
         /// <returns></returns>
         [HttpPost("UploadVideoAds")]
         [Consumes("multipart/form-data")]
-        public IActionResult UploadVideoAds(IFormFileCollection formFiles)
+        public IActionResult UploadVideoAds([FromForm] IFormFileCollection formFiles)
         {
             if (!Request.Headers.ContainsKey("Authorization"))
             {

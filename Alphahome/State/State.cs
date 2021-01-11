@@ -15,7 +15,6 @@ namespace Alphahome.State
             this.ModelState = state;
         }
     }
-
     public class ModelStateFeatureFilter : IAsyncActionFilter
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
