@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Alphahome.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Alphahome.State;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -39,7 +40,7 @@ namespace Upload.Controllers
                 return Ok(result);
             }
 
-            return BadRequest(result);
+            return BadRequest();
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace Upload.Controllers
                 return Ok(result);
             }
 
-            return BadRequest(result);
+            return BadRequest();
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace Upload.Controllers
                 return Ok(result);
             }
 
-            return BadRequest(result);
+            return BadRequest();
         }
 
     }

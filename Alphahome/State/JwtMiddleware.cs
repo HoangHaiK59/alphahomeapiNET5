@@ -57,6 +57,7 @@ namespace Alphahome.State
                 }
                 else
                 {
+                    await _next(null);
                 }
             } 
             catch (Exception ex)

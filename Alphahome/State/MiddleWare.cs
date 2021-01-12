@@ -42,52 +42,70 @@ namespace Alphahome.State
 
         public async Task Invoke(HttpContext context)
         {
-            var originBody = context.Response.Body;
-
-            using (var responseBody = new MemoryStream())
+            try
             {
-                context.Response.Body = responseBody;
-                // Process inner middlewares and return result.
-                await _next(context);
-
-                var ModelState = context.Features.Get<ModelStateFeature>()?.ModelState;
-                if (ModelState == null)
+                if (context.WebSockets.IsWebSocketRequest)
                 {
-                    return;
-                }
 
-                responseBody.Seek(0, SeekOrigin.Begin);
-                using (var streamReader = new StreamReader(responseBody))
+                } else
                 {
-                    // Get action result come from mvc pipeline
-                    var strActionData = streamReader.ReadToEnd();
-                    var objActionData = JsonConvert.DeserializeObject(strActionData);
-                    context.Response.Body = originBody;
-                    var listStatusCode= new[] { 200, 204 };
+                    var originBody = context.Response.Body;
 
-                    var status = listStatusCode.Contains(context.Response.StatusCode) ? "success" : "error";
-
-                    // Create uniuqe shape for all responses.
-                    var responseModel = new GenericResponse(objActionData, (HttpStatusCode)context.Response.StatusCode, context.Items?["Message"]?.ToString(), status);
-
-                    // if (!ModelState.IsValid) => Get error message
-
-                    if (!ModelState.IsValid)
+                    using (var responseBody = new MemoryStream())
                     {
-                        var errors = ModelState.Values.Where(v => v.Errors.Count > 0)
-                            .SelectMany(v => v.Errors)
-                            .Select(v => v.ErrorMessage)
-                            .ToList();
-                        responseModel.Data = null;
-                        responseModel.Message = String.Join(" ; ", errors);
+                        context.Response.Body = responseBody;
+                        // Process inner middlewares and return result.
+                        await _next(context);
+
+                        var ModelState = context.Features.Get<ModelStateFeature>()?.ModelState;
+                        if (ModelState == null)
+                        {
+                            return;
+                        }
+
+                        responseBody.Seek(0, SeekOrigin.Begin);
+                        using (var streamReader = new StreamReader(responseBody))
+                        {
+                            // Get action result come from mvc pipeline
+                            var strActionData = streamReader.ReadToEnd();
+                            var objActionData = JsonConvert.DeserializeObject(strActionData);
+                            context.Response.Body = originBody;
+                            var listStatusCode = new[] { 200, 204 };
+
+                            var status = listStatusCode.Contains(context.Response.StatusCode) ? "success" : "error";
+
+                            // Create uniuqe shape for all responses.
+                            var responseModel = new GenericResponse(objActionData, (HttpStatusCode)context.Response.StatusCode, context.Items?["Message"]?.ToString(), status);
+
+                            // if (!ModelState.IsValid) => Get error message
+
+                            if (!ModelState.IsValid)
+                            {
+                                var errors = ModelState.Values.Where(v => v.Errors.Count > 0)
+                                    .SelectMany(v => v.Errors)
+                                    .Select(v => v.ErrorMessage)
+                                    .ToList();
+                                responseModel.Data = null;
+                                responseModel.Message = String.Join(" ; ", errors);
+                            }
+
+                            // Set all response code to 200 and keep actual status code inside wrapped object.
+                            context.Response.StatusCode = (int)HttpStatusCode.OK;
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(responseModel));
+
+                        }
                     }
-
-                    // Set all response code to 200 and keep actual status code inside wrapped object.
-                    context.Response.StatusCode = (int)HttpStatusCode.OK;
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(responseModel));
-
                 }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (!context.Response.HasStarted)
+                    await _next(context);
             }
         }
     }
