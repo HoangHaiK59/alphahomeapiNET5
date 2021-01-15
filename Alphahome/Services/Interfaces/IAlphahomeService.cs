@@ -15,6 +15,7 @@ namespace Alphahome.Services.Interfaces
         Task<string> UploadImage(IFormFile uFile);
         Task<List<string>> UploadMultiImage(IFormFileCollection formFiles);
         Task<List<Ads>> UploadVideoAds(IFormFileCollection formFiles);
+        Task<Response> FindUserAsync(string userId);
         List<Ads> GetAdsVideo(int numVideo);
         List<Ads> ManageAdsVideo();
         Response DeleteAdsVideo(int id);

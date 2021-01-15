@@ -171,6 +171,10 @@ namespace Alphahome.Services
         {
             return _alphahomeRepo.Search(query);
         }
+        public Task<Response> FindUserAsync(string userId)
+        {
+            return _alphahomeRepo.FindUserAsync(userId);
+        }
         public AuthenticateResponse Authenticate(AlphahomeUser user, string ipAddress)
         {
             var userResponse = _alphahomeRepo.Authenticate(user);

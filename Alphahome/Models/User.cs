@@ -22,4 +22,12 @@ namespace Alphahome.Models
         public string lastName { get; set; }
         public string userId { get; set; }
     }
+
+    public class UserDb
+    {
+        public string email { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string userId { get; set; }
+    }
 }

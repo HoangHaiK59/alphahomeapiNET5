@@ -618,7 +618,7 @@ namespace Alphahome.Repositories
             {
                 // var fileName = Path.GetFileName(uFile.FileName);
                 var fileName = Guid.NewGuid().ToString();
-                fileName = fileName + "." + Path.GetFileName(uFile.FileName).Split(".")[1];
+                fileName = fileName + Path.GetExtension(uFile.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -637,7 +637,7 @@ namespace Alphahome.Repositories
                foreach(var file in formFiles)
                 {
                     var fileName = Guid.NewGuid().ToString();
-                    fileName = fileName + "." + Path.GetFileName(file.FileName).Split(".")[1];
+                    fileName = fileName + Path.GetExtension(file.FileName);
                     var fileUrl = "/images/" + fileName;
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -653,6 +653,26 @@ namespace Alphahome.Repositories
             }
             return fileCreates;
         }
+        public Task<Response> FindUserAsync(string userId)
+        {
+            var procedure = "sp_find_user_by_userId";
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var param = new DynamicParameters();
+                    param.Add("userId", userId);
+                    var data = conn.QueryFirstOrDefaultAsync<Response>(procedure, param, commandType: System.Data.CommandType.StoredProcedure);
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
         public async Task<List<Ads>> UploadVideoAds(IFormFileCollection formFiles)
         {
             List<Ads> fileCreates = new List<Ads>();
@@ -661,7 +681,7 @@ namespace Alphahome.Repositories
                 foreach (var file in formFiles)
                 {
                     var fileName = Guid.NewGuid().ToString();
-                    fileName = fileName + "." + Path.GetFileName(file.FileName).Split(".")[1];
+                    fileName = fileName + Path.GetExtension(file.FileName);
                     var fileUrl = "/ads/" + fileName;
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\ads", fileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))

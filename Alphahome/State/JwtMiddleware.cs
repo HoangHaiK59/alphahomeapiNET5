@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Alphahome.Models;
+using Alphahome.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -20,20 +22,20 @@ namespace Alphahome.State
             _next = next;
             _configuration = configuration;
         }
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, IAlphahomeService service)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             if (context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").First() != "Basic")
             {
                 if (token != null)
-                    await attachUser(context, token);
+                    await attachUser(context, token, service);
             } else
             {
             }
             // context.Request.Headers.Clear();
             await _next(context);
         }
-        private async Task attachUser(HttpContext context, string token)
+        private async Task attachUser(HttpContext context, string token, IAlphahomeService service)
         {
             try
             {
@@ -53,7 +55,16 @@ namespace Alphahome.State
                 context.Items["Account"] = userId;
                 if (!string.IsNullOrEmpty(userId))
                 {
-                    await _next(context);
+
+                    // Guid.TryParse(userId, out var guidId);
+                    var user = await service.FindUserAsync(userId);
+                    if (user.valid)
+                    {
+                        await _next.Invoke(context);
+                    } else
+                    {
+                        await _next(null);
+                    }
                 }
                 else
                 {
