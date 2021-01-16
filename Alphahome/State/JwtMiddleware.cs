@@ -52,7 +52,6 @@ namespace Alphahome.State
                 }, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = (jwtToken.Claims.First(x => x.Type == "sub").Value);
-                context.Items["Account"] = userId;
                 if (!string.IsNullOrEmpty(userId))
                 {
 
@@ -60,15 +59,16 @@ namespace Alphahome.State
                     var user = await service.FindUserAsync(userId);
                     if (user.valid)
                     {
-                        await _next.Invoke(context);
+                        //await _next.Invoke(context);
+                        context.Items["Account"] = userId;
                     } else
                     {
-                        await _next(null);
+                        //await _next(null);
                     }
                 }
                 else
-                {
-                    await _next(null);
+                { 
+                    //await _next(null);
                 }
             } 
             catch (Exception ex)

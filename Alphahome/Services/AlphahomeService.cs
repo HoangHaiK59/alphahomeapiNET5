@@ -210,7 +210,7 @@ namespace Alphahome.Services
             var token = new JwtSecurityToken(null,
               null,
               claims,
-              expires: DateTime.Now.AddMinutes(180),
+              expires: DateTime.Now.AddMinutes(1),
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

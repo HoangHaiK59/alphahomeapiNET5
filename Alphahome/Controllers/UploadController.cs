@@ -50,13 +50,13 @@ namespace Upload.Controllers
         /// <returns></returns>
         [HttpPost("UploadMultiImage")]
         [Consumes("multipart/form-data")]
-        public IActionResult UploadMultiImage([FromForm] IFormFileCollection formFiles)
+        public async Task<IActionResult> UploadMultipleImage([FromForm] IFormFileCollection formFiles)
         {
             if (!Request.Headers.ContainsKey("Authorization"))
             {
                 return Unauthorized();
             }
-            var result = _alphahomeService.UploadMultiImage(formFiles).Result;
+            var result = await _alphahomeService.UploadMultiImage(formFiles);
             if (result.Count > 0)
             {
                 return Ok(result);
@@ -72,13 +72,13 @@ namespace Upload.Controllers
         /// <returns></returns>
         [HttpPost("UploadVideoAds")]
         [Consumes("multipart/form-data")]
-        public IActionResult UploadVideoAds([FromForm] IFormFileCollection formFiles)
+        public async Task<IActionResult> UploadMultipleVideoAds([FromForm] IFormFileCollection formFiles)
         {
             if (!Request.Headers.ContainsKey("Authorization"))
             {
                 return Unauthorized();
             }
-            var result = _alphahomeService.UploadVideoAds(formFiles).Result;
+            var result = await _alphahomeService.UploadVideoAds(formFiles);
             if (result.Count > 0)
             {
                 return Ok(result);
